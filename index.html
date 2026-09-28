@@ -1,10 +1,365 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>rz</title>
-  </head>
-  <body>
-    <h1>Histeri Calismalari</h1>
-    <p>En sevdigim album.</p>
-  </body>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ruzgar - site</title>
+  <meta name="description" content="Personal website of Your Name — developer, builder, problem solver.">
+
+  <style>
+    /* ---------- Design tokens ---------- */
+    :root {
+      --bg: #000000;
+      --surface: #0b0b0b;
+      --border: #232323;
+      --text: #ececec;
+      --muted: #9a9a9a;
+      --accent: #d1586f;
+      --accent-strong: #8c1c34;
+      --accent-soft: rgba(209, 88, 111, 0.14);
+      --radius: 0;
+      --max-width: 960px;
+      --theme-transition: .25s ease;
+    }
+
+    [data-theme="light"] {
+      --bg: #fbfbfd;
+      --surface: #ffffff;
+      --border: #e4e7ec;
+      --text: #14161a;
+      --muted: #5f6875;
+      --accent: #800020;
+      --accent-strong: #800020;
+      --accent-soft: rgba(128, 0, 32, 0.08);
+    }
+
+    /* ---------- Base ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      transition: background var(--theme-transition), color var(--theme-transition);
+    }
+
+    img { max-width: 100%; display: block; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 .5em; }
+    h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); }
+    h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); }
+    p  { margin: 0 0 1rem; }
+
+    .container {
+      width: min(100% - 2.5rem, var(--max-width));
+      margin-inline: auto;
+    }
+
+    .muted { color: var(--muted); }
+
+    /* ---------- Header / nav ---------- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--theme-transition), border-color var(--theme-transition);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .75rem 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .logo:hover { text-decoration: none; }
+
+    .logo-img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      transition: border-color var(--theme-transition);
+    }
+    .logo:hover .logo-img {
+      border-color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: .95rem;
+      transition: color var(--theme-transition);
+    }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 0;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 1rem;
+      transition: border-color var(--theme-transition), color var(--theme-transition);
+    }
+    .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+    @media (max-width: 560px) {
+      .nav-links { gap: 1rem; }
+      .nav-links li:not(:last-child) a { font-size: .85rem; }
+      .logo-img { width: 36px; height: 36px; }
+    }
+
+    /* ---------- Sections ---------- */
+    section { padding: 5rem 0; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      padding: 2rem 0 2rem;
+    }
+
+    .hero p.lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      transition: color var(--theme-transition);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      margin-top: 1.75rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: .7rem 1.3rem;
+      border-radius: 0;
+      font-size: .95rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: opacity .15s ease, background var(--theme-transition),
+                  border-color var(--theme-transition), color var(--theme-transition);
+    }
+    .btn:hover { text-decoration: none; }
+
+    .btn-primary { background: var(--accent-strong); color: #fff; }
+    .btn-primary:hover { opacity: .88; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ---------- Projects ---------- */
+    #projects {
+      padding-top: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0;
+      padding: 1.4rem;
+      transition: border-color var(--theme-transition), background var(--theme-transition);
+    }
+    .card:hover { border-color: var(--accent); }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: .4rem;
+      transition: color var(--theme-transition);
+    }
+    .card p {
+      font-size: .93rem;
+      color: var(--muted);
+      margin-bottom: .9rem;
+      transition: color var(--theme-transition);
+    }
+    .card a { font-size: .9rem; font-weight: 600; }
+
+    /* ---------- Contact ---------- */
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      list-style: none;
+      padding: 0;
+      margin-top: 1.5rem;
+    }
+
+    /* ---------- Footer ---------- */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      font-size: .875rem;
+      color: var(--muted);
+      transition: border-color var(--theme-transition), color var(--theme-transition);
+    }
+
+    /* ---------- Accessibility ---------- */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="container" aria-label="Main">
+      <a class="logo" href="#top">
+        <img src="ruzgar-logo.jpg" alt="Ruzgar logo" class="logo-img">
+      </a>
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li>
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme">◐</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero container">
+      <h1>I'm ruzgar,<br>I do bs.</h1>
+      <p class="lead">
+        I do absolutely nothing about coding,
+        at least for now.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#contact">My Socials</a>
+        <a class="btn btn-ghost" href="#projects">See my work (nothing)</a>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="container">
+      <h2>Projects</h2>
+      <p class="muted">A few things I've built recently.</p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Air</h3>
+          <p>It helps you breathe.</p>
+          <a href="#">View project →</a>
+        </article>
+
+        <article class="card">
+          <h3>Void</h3>
+          <p>It is basically the 3rd one.</p>
+          <a href="#">View project →</a>
+        </article>
+
+        <article class="card">
+          <h3>Nothing</h3>
+          <p>It is basically the 2nd one..</p>
+          <a href="#">View project →</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="container">
+      <h2>Contact</h2>
+      <p class="muted">
+        Hmu.
+      </p>
+      <ul class="contact-links">
+        <li><a href="mailto:RuzgarEmin@proton.me">Mail</a></li>
+        <li><a href="https://github.com/ruzgaremin" rel="noopener">GitHub</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>ruzgar - <span id="year"></span> - Do you think I can copyright my stuff? Dumbass.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var toggle = document.getElementById('themeToggle');
+
+      function readTheme() {
+        try { return localStorage.getItem('theme'); }
+        catch (e) { return null; }
+      }
+      function writeTheme(value) {
+        try { localStorage.setItem('theme', value); } catch (e) {}
+      }
+
+      var stored = readTheme();
+      if (stored === 'light' || stored === 'dark') {
+        root.setAttribute('data-theme', stored);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        root.setAttribute('data-theme', 'light');
+      } else {
+        root.setAttribute('data-theme', 'dark');
+      }
+
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          var current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+          var next = current === 'dark' ? 'light' : 'dark';
+          root.setAttribute('data-theme', next);
+          writeTheme(next);
+        });
+      }
+
+      var year = document.getElementById('year');
+      if (year) year.textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
 </html>
